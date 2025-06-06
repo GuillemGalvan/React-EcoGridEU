@@ -7,11 +7,7 @@ import { Asset } from 'expo-asset';
 import { BotoPersonalitzat } from '../widget/BotoPesonalitzat';
 
 
-/**
- * Component that reads renewable energy data from CSV, 
- * stores it in SQLite and displays it in a table
- * @version 1.0 23.04.2025
- */
+
 
 const styles = StyleSheet.create({
   container: {

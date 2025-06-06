@@ -3,12 +3,6 @@ import { Button, View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-/**
- * Modificacions al component principal d'entrada de React
- * per incloure encaminaments, però no components
- * @version 1.0 28.03.2020
- * @author sergi.grau@fje.edu
- */
 
 function PantallaHome({ navigation }) {
   return (

@@ -1,90 +1,98 @@
-// M06_Home.js
+// /app/views/M06_Home.js
 
 import React from 'react';
-import { View, StyleSheet, Image } from 'react-native';
-import { FlipButton } from '../widget/FlipButton/FlipButton';
-
-/**
- * Classe que hereta de Component i que implementa un component
- * independent en l'app. És un component bàsic sense estils
- * Fa servir routing
- * @version 2.1 25.04.2025
- */
+import { View, StyleSheet } from 'react-native';
+import {
+  Text,
+  Button,
+  Card,
+  Title,
+  Paragraph,
+  Divider,
+} from 'react-native-paper';
 
 export class M06_Home extends React.Component {
   render() {
+    const { navigation } = this.props;
+
     return (
-      <View style={estils.contenidors}>
-        <View style={estils.contenidorLogo}>
-          <Image
-            source={require('../../assets/logoSuperApp3.png')}
-            style={estils.logo}
-            resizeMode="contain"
-          />
-        </View>
+      <View style={styles.container}>
+        {/* --- Section 1: Title + Description --- */}
+        <Title style={styles.heading}>EU Renewable Energy Dashboard</Title>
+        <Paragraph style={styles.subheading}>
+          Explore renewable‐energy data for each EU country, or view the map of
+          resources.
+        </Paragraph>
 
-        <View style={estils.buttonsWrapper} testID="contenidorBotons">
-          <FlipButton
-            title="Renovables"
-            frontColor="#4DB6AC"
-            backColor="#B2DFDB"
-            frontTextColor="white"
-            backTextColor="black"
-            backText="Renovables: clica para ver la evolución de energías renovables en Europa"
-            onPress={() => this.props.navigation.navigate('Renovables')}
-          />
+        <Divider style={styles.divider} />
 
-          <FlipButton
-            title="Mapes"
-            frontColor="#2196F3"
-            backColor="#BBDEFB"
-            frontTextColor="white"
-            backTextColor="black"
-            backText="Mapes: clica para ver tu ubicación"
-            onPress={() => this.props.navigation.navigate('Mapes')}
-          />
+        {/* --- Section 2: View Map Card --- */}
+        <Card style={styles.card}>
+          <Card.Content>
+            <Title>View Map</Title>
+            <Paragraph>
+              Open the interactive map to see renewable energy resources and
+              usage across Europe.
+            </Paragraph>
+          </Card.Content>
+          <Card.Actions style={styles.cardActions}>
+            <Button mode="contained" onPress={() => navigation.navigate('Mapes')}>
+              Open Map
+            </Button>
+          </Card.Actions>
+        </Card>
 
-          <FlipButton
-            title="SQLite"
-            frontColor="#2962FF"
-            backColor="#82B1FF"
-            frontTextColor="white"
-            backTextColor="black"
-            backText="SQLite: clica para ver nuestra base de datos"
-            onPress={() => this.props.navigation.navigate('SQLite')}
-          />
-        </View>
+        <Divider style={styles.divider} />
+
+        {/* --- Section 3: Browse EU Database Card --- */}
+        <Card style={styles.card}>
+          <Card.Content>
+            <Title>EU Renewable Usage Database</Title>
+            <Paragraph>
+              View the current renewable energy consumption for each EU country.
+              Data is stored locally (SQLite).
+            </Paragraph>
+          </Card.Content>
+          <Card.Actions style={styles.cardActions}>
+            <Button
+              mode="contained"
+              onPress={() => navigation.navigate('SQLite')}
+            >
+              View Database
+            </Button>
+          </Card.Actions>
+        </Card>
       </View>
     );
   }
 }
 
-const estils = StyleSheet.create({
-  contenidors: {
+const styles = StyleSheet.create({
+  container: {
     flex: 1,
-    justifyContent: 'flex-start',
-    padding: 10,
-    backgroundColor: '#c3cfe2',
+    padding: 16,
+    backgroundColor: '#fafafa',
   },
-  contenidorLogo: {
-    alignItems: 'center',
-    marginBottom: 8,
+  heading: {
+    marginTop: 8,
+    fontSize: 24,
+    textAlign: 'center',
   },
-  logo: {
-    width: '60%',
-    aspectRatio: 2,    
+  subheading: {
+    textAlign: 'center',
+    marginBottom: 16,
+    color: '#555',
   },
-  buttonsWrapper: {
-    width: '100%',
-    alignItems: 'center',
-    borderRadius: 16,
-    backgroundColor: '#ffffff',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-    paddingVertical: 20,
-    marginTop: 0,
+  divider: {
+    marginVertical: 12,
+  },
+  card: {
+    marginBottom: 16,
+    elevation: 4,
+  },
+  cardActions: {
+    justifyContent: 'flex-end',
+    paddingHorizontal: 8,
+    paddingBottom: 8,
   },
 });

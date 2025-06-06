@@ -5,12 +5,7 @@ import * as Location from 'expo-location';
 import { BotoPersonalitzat } from '../widget/BotoPesonalitzat';
 
 
-/**
- * Classe que hereta de Component i que implementa un component
- * per a visualitzar mapes, Fa servir routing i mostra la ubicació actual
- * @version 1.1 12.04.2025
- * @author sergi.grau@fje.edu
- */
+
 
 const estils = StyleSheet.create({
   contenidor: {

@@ -3,15 +3,6 @@ import { TouchableHighlight, TouchableOpacity, StyleSheet, Image, Text, View } f
 import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
 
-/**
- * Classe que hereta de Component i que implementa un component
- * independent en l'app. És un component bàsic sense estils
- * Fa servir routing
- * expo install expo-camera
- * expo install expo-permissions
- * @version 2.0 17.04.2022
- * @author sergi.grau@fje.edu
- */
 
 
 const styles = StyleSheet.create({

@@ -2,13 +2,6 @@ import React from 'react';
 import { StyleSheet, Button, Text, View } from 'react-native';
 
 
-/**
- * Classe que hereta de Component i que implementa un component
- * independent en l'app. És un component bàsic sense estils
- * Fa servir routing
- * @version 1.0 23.03.2020
- * @author sergi.grau@fje.edu
- */
 
 const estils = StyleSheet.create({
   contenidor: {
