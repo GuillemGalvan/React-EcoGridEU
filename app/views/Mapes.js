@@ -1,15 +1,7 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Dimensions,
-  Text,
-  View,
-  ActivityIndicator,
-  ScrollView,
-} from 'react-native';
+import { StyleSheet, Dimensions, Text, View, ActivityIndicator, ScrollView } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
-import { BotoPersonalitzat } from '../widget/BotoPesonalitzat';
 
 const API_URL =
   'https://opendata-ajuntament.barcelona.cat/data/api/3/action/datastore_search?resource_id=452dcd1a-1c4c-4ecd-9370-2fcb687e62ed&limit=100';
@@ -18,34 +10,27 @@ async function carregarPuntsVerds() {
   try {
     const resp = await fetch(API_URL);
     const json = await resp.json();
-
-    if (!json.result || !json.result.records) {
-      throw new Error('Resposta inesperada: no hi ha records');
-    }
-
-    const punts = json.result.records
-      .map((r) => {
+    if (!json.result || !json.result.records) return [];
+    return json.result.records
+      .map(r => {
         const lat = parseFloat(r.geo_epgs_4326_lat);
         const lon = parseFloat(r.geo_epgs_4326_lon);
         if (isNaN(lat) || isNaN(lon)) return null;
         return {
-          nom: r._idregister_idname?.trim() || 'Punt Verd',
+          nom: r.name?.trim() || r._idregister_idname?.trim() || 'Punt Verd',
           lat,
           lon,
           descripcio: r.values_description || '',
         };
       })
-      .filter((p) => p !== null);
-
-    console.log('DEBUG puntsVerds:', punts.slice(0, 3));
-    return punts;
+      .filter(p => p !== null);
   } catch (e) {
     console.error('Error carregant punts verds:', e);
     return [];
   }
 }
 
-const styles = StyleSheet.create({
+const estils = StyleSheet.create({
   contenidor: { flex: 1, backgroundColor: '#fff' },
   estilMapa: {
     width: Dimensions.get('window').width,
@@ -63,50 +48,52 @@ export class Mapes extends React.Component {
   };
 
   async componentDidMount() {
-
     const { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== 'granted') {
       this.setState({ estaCarregant: false, error: 'Permís denegat' });
       return;
     }
     const ubicacio = await Location.getCurrentPositionAsync({});
-
-
     const puntsVerds = await carregarPuntsVerds();
-
     this.setState({ ubicacio, puntsVerds, estaCarregant: false });
   }
 
   render() {
     const { ubicacio, estaCarregant, puntsVerds, error } = this.state;
+    const mapStyle = [
+      { featureType: 'administrative', elementType: 'geometry', stylers: [{ visibility: 'off' }] },
+      { featureType: 'administrative.neighborhood', stylers: [{ visibility: 'off' }] },
+      { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+      { featureType: 'poi.park', stylers: [{ visibility: 'off' }] },
+      { featureType: 'poi.park', elementType: 'geometry', stylers: [{ visibility: 'on' }] },
+      { featureType: 'road', elementType: 'labels', stylers: [{ visibility: 'off' }] },
+      { featureType: 'road', elementType: 'labels.icon', stylers: [{ visibility: 'off' }] },
+      { featureType: 'transit', stylers: [{ visibility: 'off' }] },
+      { featureType: 'water', elementType: 'labels.text', stylers: [{ visibility: 'off' }] },
+    ];
 
     if (estaCarregant) {
       return (
-        <View style={styles.contenidorCarrega}>
+        <View style={estils.contenidorCarrega}>
           <ActivityIndicator size="large" color="#0000ff" />
           <Text>Obtenint dades...</Text>
         </View>
       );
     }
+
     if (error) {
       return (
         <ScrollView style={{ padding: 20 }}>
-          <Text style={{ color: 'red' }}>Error: {error}</Text>
+          <Text style={{ color: 'red' }}>{error}</Text>
         </ScrollView>
       );
     }
 
     return (
-      <View style={styles.contenidor}>
-        <BotoPersonalitzat
-          title="🏠 Tornar a Home"
-          onPress={() => this.props.navigation.navigate('Home')}
-          buttonColor="#1565C0"
-          textColor="#FFFFFF"
-        />
-
+      <View style={estils.contenidor}>
         <MapView
-          style={styles.estilMapa}
+          style={estils.estilMapa}
+          customMapStyle={mapStyle}
           initialRegion={{
             latitude: ubicacio.coords.latitude,
             longitude: ubicacio.coords.longitude,
@@ -114,7 +101,6 @@ export class Mapes extends React.Component {
             longitudeDelta: 0.05,
           }}
         >
-
           <Marker
             coordinate={{
               latitude: ubicacio.coords.latitude,
@@ -123,7 +109,6 @@ export class Mapes extends React.Component {
             title="La meva ubicació"
             description="Estic aquí"
           />
-
           {puntsVerds.map((p, i) => (
             <Marker
               key={i}
