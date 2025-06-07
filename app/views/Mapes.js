@@ -29,7 +29,7 @@ const estils = StyleSheet.create({
   },
 });
 
-export class M08_Mapes extends React.Component {
+export class Mapes extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

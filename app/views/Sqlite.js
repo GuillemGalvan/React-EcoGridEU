@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   
 });
 
-export class M09_Sqlite extends React.Component {
+export class Sqlite extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

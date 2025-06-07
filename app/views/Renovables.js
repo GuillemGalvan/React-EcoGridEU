@@ -1,14 +1,13 @@
-// M06_Renovables.js
+// Renovables.js
 
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View, Image } from 'react-native';
 import { BotoPersonalitzat } from '../widget/BotoPesonalitzat';
 
-export class M06_Renovables extends React.Component {
+export class Renovables extends React.Component {
   render() {
     return (
       <ScrollView style={styles.container}>
-        {/* Botón arriba para volver a Home */}
         <View style={styles.topButton}>
           <BotoPersonalitzat
             title="🏠 Volver a Home"
